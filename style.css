@@ -53,10 +53,19 @@ a { color: inherit; }
 }
 .nav a.home {
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
   text-decoration: none;
   color: var(--text);
   font-size: 15px;
+}
+.nav a.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav a.brand .mark {
+  color: var(--accent);
+  flex: none;
 }
 .nav .links { display: flex; gap: 20px; }
 .nav .links a {

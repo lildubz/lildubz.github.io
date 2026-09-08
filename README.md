@@ -1,8 +1,8 @@
-# lildubz.github.io
+# lildubz.github.io — Orbit
 
-Personal portfolio site, published via GitHub Pages at https://lildubz.github.io
+Orbit's site, published via GitHub Pages at https://lildubz.github.io
 
-Case studies for three solo-built Flutter apps:
+Orbit is a one-person studio (founded and run by Lily Dubin) building minimal, offline-first apps:
 
 - [nope.](https://lildubz.github.io/nope.html) — habit-resistance tracker ([source](https://github.com/lildubz/nope_app))
 - [coin.](https://lildubz.github.io/coin.html) — daily finance tracker ([source](https://github.com/lildubz/coin.))
