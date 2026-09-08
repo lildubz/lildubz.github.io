@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nope. — Lily Dubin</title>
+<meta name="description" content="Case study: nope., a cross-platform habit-resistance tracker built solo in Flutter — app-lock security, adaptive feedback, and rendering-performance fixes.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+<style>
+  :root { --accent: #5490D7; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="nav">
+    <a class="home" href="index.html">LILY DUBIN</a>
+    <div class="links">
+      <a href="https://github.com/lildubz/nope_app" target="_blank" rel="noopener">Source</a>
+      <a href="index.html">All projects</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="icon" style="width:64px;height:64px;border-radius:16px;overflow:hidden;border:1px solid var(--border);margin-bottom:20px;">
+      <img src="assets/icons/nope-icon.png" alt="nope. app icon">
+    </div>
+    <h1>nope. — habit-resistance tracker</h1>
+    <p class="lede">
+      A cross-platform mobile app that helps users resist impulses and build positive habits through
+      daily engagement, streaks, and adaptive feedback. Built solo in Flutter, offline-first, currently
+      in beta. Part of a suite of three minimal daily-habit apps sharing one design language.
+    </p>
+    <div class="contact">
+      <span>Flutter &amp; Dart · Solo developer · Aug 2025 – present</span>
+    </div>
+  </header>
+
+  <section class="block">
+    <h2>What it does</h2>
+    <ul>
+      <li>Tap "NOPE" once per day per habit to log a resisted urge and grow that habit's streak, with automatic streak resets on a missed day.</li>
+      <li>Four selectable feedback tone packs (Light / Dark / Dry / Savage) that adjust motivational messaging based on real-time streak length.</li>
+      <li>Custom habit colors and icons, a calendar view of resisted urges, confetti on completion, and a rolling log of recent urges per habit.</li>
+      <li>App-lock security: an optional 4-digit passcode with Face ID / Touch ID unlock, so the app can hold something a user doesn't want casually opened.</li>
+      <li>Daily local reminders nudging users before a streak lapses.</li>
+      <li>Fully offline — everything persists on-device via <code>shared_preferences</code>.</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>Engineering highlights</h2>
+    <ul>
+      <li><strong>Fixed a full-list re-render bottleneck.</strong> Tapping one habit's streak button was triggering a rebuild of the entire habit list. I refactored the <code>Habit</code> model to extend <code>ChangeNotifier</code> and wrapped each list item in <code>AnimatedBuilder</code> + <code>RepaintBoundary</code>, isolating rebuilds to the widget that actually changed — no external state-management library needed.</li>
+      <li><strong>Modeled streak continuity as an explicit set of edge cases</strong> rather than a running counter: date-only comparisons dedupe a second tap on the same day, a skipped calendar day zeroes the streak, and the longest-streak high-water mark is tracked independently so it survives a reset. Destructive resets sit behind a two-step confirmation gate.</li>
+      <li><strong>App-lock security</strong> hashes the 4-digit passcode with SHA-256 before it ever touches storage — the raw code is never persisted — with biometric unlock via <code>local_auth</code> and automatic re-lock on app resume (via a <code>WidgetsBindingObserver</code>), so backgrounding the app doesn't leave it open.</li>
+      <li><strong>Local notification scheduling</strong> (<code>flutter_local_notifications</code> + <code>timezone</code>) reminds users before a streak lapses, handled across time zones correctly.</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>Testing &amp; verification</h2>
+    <p>Solo developer, no dedicated QA — verified manually during development, before each merge:</p>
+    <ul>
+      <li>Smoke-tested every feature on iOS Simulator and Android Emulator before merging, across both light and dark themes.</li>
+      <li>Manually tested the app-lock flow end-to-end: passcode set / verify / change, biometric enrollment on and off, forced re-lock on app resume, and lockout behavior on a wrong passcode.</li>
+      <li>Ran <code>flutter analyze</code> (<code>flutter_lints</code>) as a static-analysis gate. The next step is backing the streak logic — already pure, UI-independent functions — with real unit tests.</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>Tech stack</h2>
+    <div class="stack">
+      <span class="chip">Flutter</span>
+      <span class="chip">Dart</span>
+      <span class="chip">shared_preferences</span>
+      <span class="chip">local_auth</span>
+      <span class="chip">crypto (SHA-256)</span>
+      <span class="chip">flutter_local_notifications</span>
+      <span class="chip">timezone</span>
+      <span class="chip">table_calendar</span>
+      <span class="chip">confetti</span>
+    </div>
+  </section>
+
+  <a class="cta" href="https://github.com/lildubz/nope_app" target="_blank" rel="noopener">View source on GitHub →</a>
+  <br>
+  <a class="back" href="index.html">← Back to all projects</a>
+
+  <footer>
+    <a href="mailto:lilydubin3@gmail.com">lilydubin3@gmail.com</a> ·
+    <a href="https://github.com/lildubz" target="_blank" rel="noopener">GitHub</a> ·
+    <a href="https://linkedin.com/in/lily-dubin-a483b3317" target="_blank" rel="noopener">LinkedIn</a>
+  </footer>
+
+</div>
+</body>
+</html>

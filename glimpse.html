@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>glimpse. — Lily Dubin</title>
+<meta name="description" content="Case study: glimpse., a micro-journaling app built solo in Flutter — SQLite migrations, upsert semantics, and a guarded Gemini API integration.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+<style>
+  :root {
+    --bg: #0c0a08;
+    --bg-raised: #17130f;
+    --border: #2c241c;
+    --text: #f0eae0;
+    --text-dim: #c9bfae;
+    --text-faint: #8a8071;
+    --accent: #c8973e;
+  }
+  .hero h1, .card .name { font-family: var(--font-serif); font-style: italic; font-weight: normal; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="nav">
+    <a class="home" href="index.html">LILY DUBIN</a>
+    <div class="links">
+      <a href="https://github.com/lildubz/glimpse." target="_blank" rel="noopener">Source</a>
+      <a href="index.html">All projects</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="icon" style="width:64px;height:64px;border-radius:16px;overflow:hidden;border:1px solid var(--border);margin-bottom:20px;">
+      <img src="assets/icons/glimpse-icon.png" alt="glimpse. app icon">
+    </div>
+    <h1>glimpse. — micro-journal</h1>
+    <p class="lede" style="font-style:normal;">
+      One entry. Every day. Forever. A minimal micro-journal for iOS and Android — no word counts,
+      no prompts you have to follow, just one entry a day. Built solo in Flutter, local-only,
+      with an optional AI-generated reflection on the themes running through your entries.
+    </p>
+    <div class="contact">
+      <span>Flutter &amp; Dart · Solo developer · Aug 2025 – present</span>
+    </div>
+  </header>
+
+  <section class="block">
+    <h2>What it does</h2>
+    <ul>
+      <li>One entry a day, with 10 rotating writing prompts to spark a thought — no pressure beyond that.</li>
+      <li>Streak tracking, a scrollable entry history, a calendar view marked with every day written, and edit-anytime on past entries.</li>
+      <li><strong>Reveal glimpse:</strong> an on-demand call to Google's Gemini API that reads a month's unsummarized entries and generates a short reflection on the themes running through them.</li>
+      <li>Everything persisted locally in a real database — no account, nothing leaves the device except the optional reveal call.</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>Engineering highlights</h2>
+    <ul>
+      <li><strong>Migrated the data layer live, without losing anyone's entries.</strong> glimpse. started on <code>shared_preferences</code> and moved to a versioned SQLite schema (<code>sqflite</code>) with <code>onCreate</code>/<code>onUpgrade</code> migrations. A one-time migration path reads the legacy JSON blob, batch-inserts every entry into the new database, and sets a boolean flag so the import never re-runs on a later launch — verified by seeding legacy data, running the upgrade, and confirming a second launch was a no-op.</li>
+      <li><strong>Enforced one-entry-per-day at the storage level</strong>, not just in the UI: entries upsert via <code>ConflictAlgorithm.replace</code> on a date-keyed primary key, so writing twice for the same day always resolves to a single row. Journaling streaks are computed by walking backward through an in-memory date map.</li>
+      <li><strong>Guarded the Gemini integration against runaway usage.</strong> A self-imposed monthly cap — well under any plausible free-tier quota — is tracked in local storage with a month-keyed counter, so a stray double-tap or bug can't run up real API usage. The cap resets automatically at the start of each calendar month.</li>
+      <li><strong>Design system:</strong> a warm editorial dark theme (matched light/dark palettes, Georgia serif for entry text), a duotone image-filter pipeline (a luminance-mapped <code>ColorFilter</code> matrix) for entry photos, and a hand-rolled <code>CustomPainter</code> loading animation.</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>Testing &amp; verification</h2>
+    <p>Solo developer, no dedicated QA — verified manually during development, before each merge:</p>
+    <ul>
+      <li>Smoke-tested every feature on iOS Simulator and Android Emulator before merging, across both light and dark themes.</li>
+      <li>Verified the shared_preferences→SQLite migration by seeding legacy JSON data, running the upgrade path, and confirming every entry landed exactly once with no duplicates or loss.</li>
+      <li>Ran <code>flutter analyze</code> (<code>flutter_lints</code>) as a static-analysis gate. Next up: real unit tests around the migration and upsert logic, since both are already pure functions with no UI dependency.</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>Tech stack</h2>
+    <div class="stack">
+      <span class="chip">Flutter</span>
+      <span class="chip">Dart</span>
+      <span class="chip">sqflite (SQLite)</span>
+      <span class="chip">shared_preferences</span>
+      <span class="chip">Gemini API</span>
+      <span class="chip">table_calendar</span>
+    </div>
+  </section>
+
+  <a class="cta" href="https://github.com/lildubz/glimpse." target="_blank" rel="noopener">View source on GitHub →</a>
+  <br>
+  <a class="back" href="index.html">← Back to all projects</a>
+
+  <footer>
+    <a href="mailto:lilydubin3@gmail.com">lilydubin3@gmail.com</a> ·
+    <a href="https://github.com/lildubz" target="_blank" rel="noopener">GitHub</a> ·
+    <a href="https://linkedin.com/in/lily-dubin-a483b3317" target="_blank" rel="noopener">LinkedIn</a>
+  </footer>
+
+</div>
+</body>
+</html>
