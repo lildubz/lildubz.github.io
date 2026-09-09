@@ -129,13 +129,13 @@ a { color: inherit; }
   letter-spacing: normal;
   margin: 0 0 32px;
 }
-.hero-home .lede {
+.hero.hero-home .lede {
   text-align: left;
   max-width: none;
   margin-left: 0;
   margin-right: 0;
 }
-.hero-home .contact { text-align: left; justify-content: flex-start; }
+.hero.hero-home .contact { text-align: left; justify-content: flex-start; }
 
 /* ---------- project cards (index) ---------- */
 .projects {
