@@ -21,7 +21,22 @@
   --maxw: 1800px;
 }
 
+/* Light mode — toggled via data-theme="light" on <html>, matching the
+   light/dark themes each app already ships. */
+:root[data-theme="light"] {
+  --bg: #f7f7f5;
+  --bg-raised: #ffffff;
+  --text: #16161a;
+  --text-dim: #55555f;
+  --text-faint: #8f8f97;
+  --border: #e1e1e6;
+}
+
 * { box-sizing: border-box; }
+
+*, *::before, *::after {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
 
 html { scroll-behavior: smooth; }
 
@@ -75,6 +90,26 @@ a { color: inherit; }
   transition: color 0.15s ease;
 }
 .nav .links a:hover { color: var(--text); }
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  margin-left: 4px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+.theme-toggle svg { width: 14px; height: 14px; display: block; }
+.theme-toggle .icon-sun { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-sun { display: block; }
+:root[data-theme="light"] .theme-toggle .icon-moon { display: none; }
 
 /* ---------- hero ---------- */
 .hero {
