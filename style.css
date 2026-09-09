@@ -130,12 +130,12 @@ a { color: inherit; }
   margin: 0 0 32px;
 }
 .hero.hero-home .lede {
-  text-align: left;
+  text-align: center;
   max-width: none;
   margin-left: 0;
   margin-right: 0;
 }
-.hero.hero-home .contact { text-align: left; justify-content: flex-start; }
+.hero.hero-home .contact { justify-content: center; }
 
 /* ---------- project cards (index) ---------- */
 .projects {
