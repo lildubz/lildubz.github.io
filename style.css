@@ -106,9 +106,19 @@ a { color: inherit; }
 /* ---------- project cards (index) ---------- */
 .projects {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: 1fr;
   gap: 16px;
   margin: 40px 0 64px;
+}
+@media (min-width: 640px) {
+  .projects { grid-template-columns: repeat(2, 1fr); }
+  /* with exactly 3 cards, let the odd one out span the full row instead
+     of sitting alone next to empty space */
+  .projects .card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+@media (min-width: 1000px) {
+  .projects { grid-template-columns: repeat(3, 1fr); }
+  .projects .card:last-child:nth-child(odd) { grid-column: auto; }
 }
 .card {
   position: relative;
