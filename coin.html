@@ -48,7 +48,7 @@
 
   <section class="block">
     <h2>What it does</h2>
-    <ul>
+    <ul class="two-col">
       <li>Log income and expenses with a label and amount; see a big animated net-total for the day.</li>
       <li>Net-per-day status is color-coded — green for net-positive, yellow for a small loss, red beyond a set threshold — reflected in the net figure, progress bars, and calendar dots.</li>
       <li>A 5-step goal-setting quiz on first launch sets daily/monthly/yearly spend and savings targets, tracked with live progress bars.</li>
@@ -59,7 +59,7 @@
 
   <section class="block">
     <h2>Engineering highlights</h2>
-    <ul>
+    <ul class="two-col">
       <li><strong>Global theme toggle done without an external state package.</strong> A <code>ValueListenableBuilder&lt;bool&gt;</code> drives light/dark mode app-wide, with a custom theming layer built to work around Flutter's widget-canonicalization behavior — by default, identical widget subtrees can get reused across a rebuild in a way that silently skips the rebuild a theme change needs, so the toggle has to force it explicitly.</li>
       <li><strong>Diagnosed and fixed an animation bug in the net-total figure.</strong> The large animated number was supposed to count up from $0 once on load, but kept re-animating from $0 on every data update instead of snapping straight to the new value. The cause: <code>TweenAnimationBuilder</code> only honors its <code>begin</code> value on a widget's true first build — later rebuilds animate from whatever is currently showing. The fix was keying the widget on a <code>dataReady</code> flag, so the moment loading finishes, Flutter treats it as a fresh first build and the number snaps to the real value; later adds/deletes still animate normally through the update path.</li>
       <li><strong>Net-color rule</strong> is a single threshold constant (green &gt; $0, yellow between $0 and –$30, red beyond –$30) shared by the net figure, progress bars, and calendar — one source of truth instead of duplicated logic.</li>
@@ -70,7 +70,7 @@
   <section class="block">
     <h2>Testing &amp; verification</h2>
     <p>Solo developer, no dedicated QA — verified manually during development, before each merge:</p>
-    <ul>
+    <ul class="two-col">
       <li>Smoke-tested every feature on iOS Simulator and Android Emulator before merging, across both light and dark themes.</li>
       <li>Regression-tested the net-total animation bug against its original repro steps after fixing it, alongside the normal add/delete/toggle paths, to confirm nothing else broke.</li>
       <li>Ran <code>flutter analyze</code> (<code>flutter_lints</code>) as a static-analysis gate. <code>test/</code> currently holds Flutter's default scaffolded test plus the icon-export script — not a functional test suite yet, which is the near-term gap.</li>

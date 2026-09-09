@@ -47,7 +47,7 @@
 
   <section class="block">
     <h2>What it does</h2>
-    <ul>
+    <ul class="two-col">
       <li>Tap "NOPE" once per day per habit to log a resisted urge and grow that habit's streak, with automatic streak resets on a missed day.</li>
       <li>Four selectable feedback tone packs (Light / Dark / Dry / Savage) that adjust motivational messaging based on real-time streak length.</li>
       <li>Custom habit colors and icons, a calendar view of resisted urges, confetti on completion, and a rolling log of recent urges per habit.</li>
@@ -59,7 +59,7 @@
 
   <section class="block">
     <h2>Engineering highlights</h2>
-    <ul>
+    <ul class="two-col">
       <li><strong>Fixed a full-list re-render bottleneck.</strong> Tapping one habit's streak button was triggering a rebuild of the entire habit list. I refactored the <code>Habit</code> model to extend <code>ChangeNotifier</code> and wrapped each list item in <code>AnimatedBuilder</code> + <code>RepaintBoundary</code>, isolating rebuilds to the widget that actually changed — no external state-management library needed.</li>
       <li><strong>Modeled streak continuity as an explicit set of edge cases</strong> rather than a running counter: date-only comparisons dedupe a second tap on the same day, a skipped calendar day zeroes the streak, and the longest-streak high-water mark is tracked independently so it survives a reset. Destructive resets sit behind a two-step confirmation gate.</li>
       <li><strong>App-lock security</strong> hashes the 4-digit passcode with SHA-256 before it ever touches storage — the raw code is never persisted — with biometric unlock via <code>local_auth</code> and automatic re-lock on app resume (via a <code>WidgetsBindingObserver</code>), so backgrounding the app doesn't leave it open.</li>
@@ -70,7 +70,7 @@
   <section class="block">
     <h2>Testing &amp; verification</h2>
     <p>Solo developer, no dedicated QA — verified manually during development, before each merge:</p>
-    <ul>
+    <ul class="two-col">
       <li>Smoke-tested every feature on iOS Simulator and Android Emulator before merging, across both light and dark themes.</li>
       <li>Manually tested the app-lock flow end-to-end: passcode set / verify / change, biometric enrollment on and off, forced re-lock on app resume, and lockout behavior on a wrong passcode.</li>
       <li>Ran <code>flutter analyze</code> (<code>flutter_lints</code>) as a static-analysis gate. The next step is backing the streak logic — already pure, UI-independent functions — with real unit tests.</li>

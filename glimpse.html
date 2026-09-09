@@ -57,7 +57,7 @@
 
   <section class="block">
     <h2>What it does</h2>
-    <ul>
+    <ul class="two-col">
       <li>One entry a day, with 10 rotating writing prompts to spark a thought — no pressure beyond that.</li>
       <li>Streak tracking, a scrollable entry history, a calendar view marked with every day written, and edit-anytime on past entries.</li>
       <li><strong>Reveal glimpse:</strong> an on-demand call to Google's Gemini API that reads a month's unsummarized entries and generates a short reflection on the themes running through them.</li>
@@ -67,7 +67,7 @@
 
   <section class="block">
     <h2>Engineering highlights</h2>
-    <ul>
+    <ul class="two-col">
       <li><strong>Migrated the data layer live, without losing anyone's entries.</strong> glimpse. started on <code>shared_preferences</code> and moved to a versioned SQLite schema (<code>sqflite</code>) with <code>onCreate</code>/<code>onUpgrade</code> migrations. A one-time migration path reads the legacy JSON blob, batch-inserts every entry into the new database, and sets a boolean flag so the import never re-runs on a later launch — verified by seeding legacy data, running the upgrade, and confirming a second launch was a no-op.</li>
       <li><strong>Enforced one-entry-per-day at the storage level</strong>, not just in the UI: entries upsert via <code>ConflictAlgorithm.replace</code> on a date-keyed primary key, so writing twice for the same day always resolves to a single row. Journaling streaks are computed by walking backward through an in-memory date map.</li>
       <li><strong>Guarded the Gemini integration against runaway usage.</strong> A self-imposed monthly cap — well under any plausible free-tier quota — is tracked in local storage with a month-keyed counter, so a stray double-tap or bug can't run up real API usage. The cap resets automatically at the start of each calendar month.</li>
@@ -78,7 +78,7 @@
   <section class="block">
     <h2>Testing &amp; verification</h2>
     <p>Solo developer, no dedicated QA — verified manually during development, before each merge:</p>
-    <ul>
+    <ul class="two-col">
       <li>Smoke-tested every feature on iOS Simulator and Android Emulator before merging, across both light and dark themes.</li>
       <li>Verified the shared_preferences→SQLite migration by seeding legacy JSON data, running the upgrade path, and confirming every entry landed exactly once with no duplicates or loss.</li>
       <li>Ran <code>flutter analyze</code> (<code>flutter_lints</code>) as a static-analysis gate. Next up: real unit tests around the migration and upsert logic, since both are already pure functions with no UI dependency.</li>

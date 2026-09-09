@@ -189,6 +189,32 @@ section.block p { color: var(--text-dim); margin: 0 0 14px; max-width: 72ch; }
 section.block ul { margin: 0; padding: 0 0 0 20px; color: var(--text-dim); }
 section.block li { margin-bottom: 12px; max-width: 70ch; }
 section.block li strong { color: var(--text); font-weight: 600; }
+
+/* On wide screens let bullet lists flow into two columns instead of
+   leaving the right half of a now-wide page empty next to short text. */
+@media (min-width: 860px) {
+  section.block ul.two-col {
+    column-count: 2;
+    column-gap: 48px;
+  }
+  section.block ul.two-col li {
+    max-width: none;
+    break-inside: avoid;
+  }
+}
+
+/* Two-paragraph "About" layout on the homepage: side by side on wide
+   screens instead of one narrow column with empty space beside it. */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
+}
+@media (min-width: 860px) {
+  .about-grid { grid-template-columns: 1fr 1fr; }
+  .about-grid p { max-width: none; }
+}
 section.block li code, p code {
   background: var(--bg-raised);
   border: 1px solid var(--border);
